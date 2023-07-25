@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('user_projects', function (Blueprint $table) {
             $table->id();
+
+            $table->string('name');
+            $table->text('description');
+
             $table->timestamps();
         });
     }
