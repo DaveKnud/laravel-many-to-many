@@ -31,8 +31,15 @@ return new class extends Migration
         });
 
         Schema::table('project_technology', function (Blueprint $table) {
-            $table->foreign('technology_id')->constrained();
-            $table->foreign('user_id')->constrained();
+            $table->unsignedBigInteger('user_project_id');
+            $table->foreign('user_project_id')
+                ->references('id')
+                ->on('user_projects');
+
+            $table->unsignedBigInteger('technology_id');
+            $table->foreign('technology_id')
+                ->references('id')
+                ->on('technologies');
         });
     }
 
@@ -55,11 +62,11 @@ return new class extends Migration
         });
 
         Schema::table('project_technology', function (Blueprint $table) {
-            $table->dropForeign('project_technology_user_id_foreign');
-            $table->dropForeign('project_technology_technologies_id_foreign');
+            $table->dropForeign('project_technology_user_project_id_foreign');
+            $table->dropForeign('project_technology_technology_id_foreign');
 
+            $table->dropColumn('user_project_id');
             $table->dropColumn('technology_id');
-            $table->dropColumn('user_id');
         });
     }
 };
